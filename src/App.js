@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import Customer from './components/Customer'
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const customer = [{
+  'id': 1,
+  'name': 'Steve Lee',
+  'birthday': '900511',
+  'gender': 'male',
+  'job': 'Student',
+  'image': 'https://placeimg.com/64/64/any'
+}];
+
+class App extends Component {
+  render() {
+    return (
+      <div>
+        {
+          customer.map(customer => {
+            return (
+              <Customer
+                id={customer.id}
+                image={customer.image}
+                name={customer.name}
+                birthday={customer.birthday}
+                gender={customer.gender}
+                job={customer.job}
+              />
+            );
+          })
+        }
+      </div>
+    );
+  }
 }
 
 export default App;
