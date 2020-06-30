@@ -20,16 +20,51 @@ const styles = theme => ({
   }
 })
 
-const customer = [{
-  'id': 1,
-  'name': 'Steve Lee',
-  'birthday': '900511',
-  'gender': 'male',
-  'job': 'Student',
-  'image': 'https://placeimg.com/64/64/any'
-}];
+const customers = [
+  {
+      "id": 1,
+      "name": "Steve Lee",
+      "birthday": "900511",
+      "gender": "male",
+      "job": "Student",
+      "image": "https://placeimg.com/64/64/1"
+    },
+    {
+      "id": 2,
+      "name": "James Park",
+      "birthday": "930201",
+      "gender": "male",
+      "job": "Clerk",
+      "image": "https://placeimg.com/64/64/2"
+    },
+    {
+      "id": 1,
+      "name": "Irene Kim",
+      "birthday": "950603",
+      "gender": "female",
+      "job": "Designer",
+      "image": "https://placeimg.com/64/64/3"
+    }
+];
 
 class App extends Component {
+
+  state = {
+    customers: ""
+  }
+
+  componentDidMount() {
+    this.callApi()
+    .then(res => this.setState({customers: res}))
+    .catch(err => console.log(err));
+  }
+
+  callApi = async() => {
+    const response = await fetch('/api/customers')
+    const body = await response.json();
+    return body;
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -46,18 +81,18 @@ class App extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-          {customer.map(customer => {
+          {this.state.customers ? this.state.customers.map(c => {
             return (
               <Customer
-                id={customer.id}
-                image={customer.image}
-                name={customer.name}
-                birthday={customer.birthday}
-                gender={customer.gender}
-                job={customer.job}
+                id={c.id}
+                image={c.image}
+                name={c.name}
+                birthday={c.birthday}
+                gender={c.gender}
+                job={c.job}
               />
             );
-          })}
+          }) : ""}
           </TableBody>
         </Table>
        
