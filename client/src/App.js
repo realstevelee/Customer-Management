@@ -24,40 +24,23 @@ const styles = theme => ({
     margin: theme.spacing.unit * 2
   }
 })
-/*
-const customers = [
-  {
-      "id": 1,
-      "name": "Steve Lee",
-      "birthday": "900511",
-      "gender": "male",
-      "job": "Student",
-      "image": "https://placeimg.com/64/64/1"
-    },
-    {
-      "id": 2,
-      "name": "James Park",
-      "birthday": "930201",
-      "gender": "male",
-      "job": "Clerk",
-      "image": "https://placeimg.com/64/64/2"
-    },
-    {
-      "id": 1,
-      "name": "Irene Kim",
-      "birthday": "950603",
-      "gender": "female",
-      "job": "Designer",
-      "image": "https://placeimg.com/64/64/3"
-    }
-];*/
 
 class App extends Component {
 
-  state = {
-    customers: "",
-    // Progress state
-    completed: 0
+  constructor(props) {
+    super(props);
+    this.state = {
+      customers: '',
+      completed: 0
+    }
+    this.stateRefresh = this.stateRefresh.bind(this);
+ 
+  }
+
+  stateRefresh = () => {
+    this.callApi()
+      .then(res => this.setState({ customers: res }))
+      .catch(err => console.log(err));
   }
 
   componentDidMount() {
@@ -94,12 +77,14 @@ class App extends Component {
                 <TableCell>Birth Date</TableCell>
                 <TableCell>Gender</TableCell>
                 <TableCell>Job</TableCell>
+                <TableCell>Setting</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {this.state.customers ? this.state.customers.map(c => {
                 return (
                   <Customer
+                    stateRefresh={this.stateRefresh}
                     id={c.id}
                     image={c.image}
                     name={c.name}
@@ -114,7 +99,7 @@ class App extends Component {
             </TableBody>
           </Table>
         </Paper>
-        <CustomerAdd />
+        <CustomerAdd stateRefresh={this.state.stateRefresh}/>
       </div>
     );
   }
